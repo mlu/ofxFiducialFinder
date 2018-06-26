@@ -1,7 +1,16 @@
 ofxFiducialFinder
 ================
-ofxFiducialFinder tracks fiducial-tagged objects using ofxOpenCv. It's like an openFrameworks-based TUIO addon, done without messages. Tested with 0.8.4 in OSX 10.8.5
+ofxFiducialFinder tracks fiducial-tagged objects using ofxOpenCv. It's like an openFrameworks-based TUIO addon, done without messages. Tested with 0.10.0 in OSX 10.8.5
 
+Changes from SafetyOrange
+-------------------------
+(june 2018 MLU)
+Using libfid from current (june 2017) reacTIVision
+https://github.com/mkalten/reacTIVision
+
+Updated openFrameworks cod to work with 0.10.0
+
+Tested with of 0.10.0 under OSX 10.12.6
 
 Note
 ---------
