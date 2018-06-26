@@ -40,7 +40,7 @@ struct _frame {
  float rotation_speed, rotation_accel;
  float motion_speed, motion_accel;
  float motion_speed_x, motion_speed_y;
- int time;
+ uint64_t time;
  };
 
 class ofxFiducial {
@@ -87,6 +87,7 @@ public:
 	float getRSpeed()	{ return current.rotation_speed; }
 	float getRAccel()	{ return current.rotation_accel; }
 	float getRootSize()	{ return r_size; }
+	float getLeafSize()	{ return l_size; }
 	bool  getCornerUpdateStatus() { return updateCorners; }
 	void  setUpdateCorners(bool _update){ updateCorners	= _update; }
 	
@@ -162,7 +163,7 @@ public:
 		float hyp = getDistance(upperLeftCornerX, upperLeftCornerY);
 		//get the current angle in radian
 		//must add pi to the radian to compensate for OF fliped cartesian coordinates
-		float rad = getAngle() + PI;
+		float rad = -getAngle() + PI;
 		//the point we are going to use
 		ofPoint addPoint;
 		//this formula finds a point in the circumfrence of a circle
@@ -294,11 +295,11 @@ public:
 		glPushMatrix();
 		glTranslatef(current.xpos + _x, current.ypos + _y, 0);
 		float deg = degrees(getAngle()); // get degree
-		glRotatef(deg, 0, 0, 1.0); // must flip degrees to compensate for image flip
+		glRotatef(-deg, 0, 0, 1.0); // must flip degrees to compensate for image flip
 		ofSetColor(255, 0, 0);//set color red
-		ofRect(0, 0, r_size, r_size); //draw root size red
+		ofDrawRectangle(0, 0, r_size, r_size); //draw root size red
 		ofSetColor(0, 0, 255); //set color blue
-		ofCircle(0, l_size*4, l_size); //draw leaf size blue
+		ofDrawCircle(0, l_size*4, l_size); //draw leaf size blue
 		ofSetColor(0, 255, 0); //set color green
 		ofDrawBitmapString(ofToString( fidId ), 0, 0); //draw fiducial number green
 		glPopMatrix();
@@ -316,7 +317,7 @@ public:
 		glTranslatef(_x, _y, 0);
 		if (cornerPoints.size() > 0) {
 			for(int i = 0; i < cornerPoints.size() ;i++) {
-				ofCircle(cornerPoints[i].x, cornerPoints[i].y, 4);
+				ofDrawCircle(cornerPoints[i].x, cornerPoints[i].y, 4);
 				////printf("corner 0.x: %f corner 0.y %f\n", cornerPoints[i].x, cornerPoints[i].y);
 				}
 			}
