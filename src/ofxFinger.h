@@ -14,7 +14,7 @@ struct finger_frame {
 	float xpos,ypos;
 	float motion_speed, motion_accel;
 	float motion_speed_x, motion_speed_y;
-	int time;
+	uint64_t time;
 };
 
 class ofxFinger {
@@ -142,7 +142,7 @@ public:
 		glPushMatrix();
 		glTranslatef(current.xpos + _x, current.ypos + _y, 0);
 		ofSetColor(255, 0, 0);//set color red
-		ofRect(0, 0, width, height); //draw finger red
+		ofDrawRectangle(0, 0, width, height); //draw finger red
 		ofDrawBitmapString(ofToString( fingerID ), 0, height+2); //draw finger number
 		glPopMatrix();
 		ofSetRectMode(OF_RECTMODE_CORNER);
