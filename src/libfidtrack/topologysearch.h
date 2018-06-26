@@ -18,8 +18,8 @@
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef INCLUDED_FLOATPOINT_H
-#define INCLUDED_FLOATPOINT_H
+#ifndef INCLUDED_TOPOLOGYSEARCH_H
+#define INCLUDED_TOPOLOGYSEARCH_H
 
 #ifdef __cplusplus
 extern "C"
@@ -27,27 +27,29 @@ extern "C"
 #endif /* __cplusplus */
 
 
-typedef struct FloatPoint{
-    float x, y;
+#include "segment.h"
 
-}FloatPoint;
+/* values for Region::level */
 
-typedef struct DoublePoint{
-    short x, y;
+#define FID_LEAF_LEVEL              (0)
+#define FID_LEAF_CONTAINER_LEVEL    (1)
+#define FID_ROOT_LEVEL              (2)     /* container of leaf containers */
+#define FID_UNKNOWN_LEVEL           (-1)
+#define FID_DISCARDED_LEVEL         (-2)    /* sentinel level for leafs we want to ignore */
 
-}DoublePoint;
 
-typedef struct IntPoint{
-    short x, y;
+typedef struct PartialSegmentTopology{
+    struct Region black_leaf_regions_head;
+    struct Region black_leaf_container_regions_head;
+    struct Region root_regions_head;
+}PartialSegmentTopology;
 
-}IntPoint;
 
-typedef struct ShortPoint{
-    short x, y;
+void initialize_segment_topology( PartialSegmentTopology *pst,
+        Segmenter *segments, int symbol_count );
 
-}ShortPoint;
 
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
-#endif /* INCLUDED_FLOATPOINT_H */
+#endif /* INCLUDED_TOPOLOGYSEARCH_H */

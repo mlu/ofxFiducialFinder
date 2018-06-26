@@ -17,9 +17,8 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
-
-#ifndef INCLUDED_FLOATPOINT_H
-#define INCLUDED_FLOATPOINT_H
+#ifndef INCLUDED_DUMP_GRAPH_H
+#define INCLUDED_DUMP_GRAPH_H
 
 #ifdef __cplusplus
 extern "C"
@@ -27,27 +26,24 @@ extern "C"
 #endif /* __cplusplus */
 
 
-typedef struct FloatPoint{
-    float x, y;
+#include "segment.h"
 
-}FloatPoint;
 
-typedef struct DoublePoint{
-    short x, y;
+/*
+write the segmentation graph to the file fileName in AT&T Graphvis DOT format
 
-}DoublePoint;
+white regions are green in the DOT graph,
+each node is labeled with its address and the following qualifiers:
+    _F_ -- fragmented
+    _S_ -- saturated
+    _AR_ -- adjacent to root
+*/
 
-typedef struct IntPoint{
-    short x, y;
+void dump_graph( const char *fileName, Segmenter *s );
 
-}IntPoint;
-
-typedef struct ShortPoint{
-    short x, y;
-
-}ShortPoint;
 
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
-#endif /* INCLUDED_FLOATPOINT_H */
+#endif /* INCLUDED_DUMP_GRAPH_H */
+

@@ -1,7 +1,7 @@
 /*
   Fiducial tracking library.
   Copyright (C) 2004 Ross Bencina <rossb@audiomulch.com>
-  Maintainer (C) 2005-2008 Martin Kaltenbrunner <mkalten@iua.upf.edu>
+  Maintainer (C) 2005-2016 Martin Kaltenbrunner <martin@tuio.org>
 
   This library is free software; you can redistribute it and/or
   modify it under the terms of the GNU Lesser General Public
@@ -42,12 +42,12 @@ static int find_maximum_tree_depth( const std::string& s )
     return result;
 }
 
-
+/*
 static int find_maximum_descendent_count( const std::string& s )
 {
     int result = 0;
-	//replaced int(original) with float to get better windows debug performance
-    std::vector<float> adjacenciesAtLevel( s.size(), 0 );
+
+    std::vector<int> adjacenciesAtLevel( s.size(), 0 );
     int currentLevel = 0;
     for( int i=1; i < (int)s.size(); ++i ){ // skip first character which is the black/white flag
 
@@ -62,8 +62,7 @@ static int find_maximum_descendent_count( const std::string& s )
         }
 
         if( d < currentLevel ){
-			//replaced int(original) with float to get better windows debug performance
-            for( std::vector<float>::iterator j = adjacenciesAtLevel.begin() + d;
+            for( std::vector<int>::iterator j = adjacenciesAtLevel.begin() + d;
                     j != adjacenciesAtLevel.begin() + currentLevel; ++j ){
 
                 *j = 0;
@@ -75,7 +74,7 @@ static int find_maximum_descendent_count( const std::string& s )
 
     return result;
 }
-
+*/
 
 
 class TreeIdMapImplementation{
@@ -109,15 +108,9 @@ public:
         int id = 0;
 
         if( !is.good() ){
-            std::cout << "error opening configuration file\n";
+            std::cout << "error opening tree file: " << file_name << std::endl;
         }else{
-		//std::cout << file_name << std::endl;
 		
- 	    // add the finger
-	    //treeIdMap_.insert( std::make_pair( "w012", FINGER_ID ));
-	    // white margin workaround
-	    //treeIdMap_.insert( std::make_pair( "w0", FINGER_ID ));
- 
      	    minNodeCount = 0x7FFF;
             minDepth = 0x7FFF;
             while( !is.eof() ){
@@ -155,11 +148,11 @@ public:
                         minDepth = maxTreeDepth;
                     if( maxTreeDepth > maxDepth )
                         maxDepth = maxTreeDepth;
-
+/*
                     int maxNodeAdjacencies = find_maximum_descendent_count( s ) + 1;
                     if( maxNodeAdjacencies > maxAdjacencies )
                         maxAdjacencies = maxNodeAdjacencies;
-
+*/
                 }else{
                     std::cout << "error inserting tree '" << s << "' into map\n";
                 }
@@ -168,6 +161,7 @@ public:
             }
         }
 
+		maxAdjacencies = maxNodeCount;
         owner_->tree_count = treeIdMap_.size();
         owner_->min_node_count = minNodeCount;
         owner_->max_node_count = maxNodeCount;
@@ -192,11 +186,6 @@ public:
 
         int id = 0;
 
-	// add the finger
-	// treeIdMap_.insert( std::make_pair( "w012", FINGER_ID ));
-	// white margin workaround
-	// treeIdMap_.insert( std::make_pair( "w0", FINGER_ID ));
-
         for (int j=0;j<default_tree_length;j++) {
 
 		std::string s(default_tree[j]);
@@ -220,16 +209,18 @@ public:
                     if( maxTreeDepth > maxDepth )
                         maxDepth = maxTreeDepth;
 
+					/*
                     int maxNodeAdjacencies = find_maximum_descendent_count( s ) + 1;
                     if( maxNodeAdjacencies > maxAdjacencies )
                         maxAdjacencies = maxNodeAdjacencies;
-
+					*/
                 }else{
                     std::cout << "error inserting tree '" << s << "' into map\n";
             }
         }
 
-        owner_->tree_count = treeIdMap_.size();
+		maxAdjacencies = maxNodeCount;
+		owner_->tree_count = treeIdMap_.size();
         owner_->min_node_count = minNodeCount;
         owner_->max_node_count = maxNodeCount;
         owner_->min_depth = minDepth;

@@ -1,7 +1,7 @@
 /*
   Fiducial tracking library.
   Copyright (C) 2004 Ross Bencina <rossb@audiomulch.com>
-  Maintainer (C) 2005-2008 Martin Kaltenbrunner <mkalten@iua.upf.edu>
+  Maintainer (C) 2005-2016 Martin Kaltenbrunner <martin@tuio.org>
 
   This library is free software; you can redistribute it and/or
   modify it under the terms of the GNU Lesser General Public
@@ -141,7 +141,7 @@ typedef struct Segmenter{
     int sizeof_region;
     int max_adjacent_regions;
 	
-	short width, height;
+	int width, height;
 
     RegionReference **regions_under_construction;
 }Segmenter;

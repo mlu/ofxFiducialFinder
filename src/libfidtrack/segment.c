@@ -1,7 +1,7 @@
 /*
   Fiducial tracking library.
   Copyright (C) 2004 Ross Bencina <rossb@audiomulch.com>
-  Maintainer (C) 2005-2008 Martin Kaltenbrunner <mkalten@iua.upf.edu>
+  Maintainer (C) 2005-2016 Martin Kaltenbrunner <martin@tuio.org>
 
   This library is free software; you can redistribute it and/or
   modify it under the terms of the GNU Lesser General Public
@@ -56,7 +56,7 @@ static RegionReference* new_region( Segmenter *s, int x, int y, int colour )
 {
     RegionReference *result;
     Region *r;
-	int i;
+//	int i;
 
     if( s->freed_regions_head ){
         r = s->freed_regions_head;
@@ -84,8 +84,8 @@ static RegionReference* new_region( Segmenter *s, int x, int y, int colour )
     r->descendent_count = 0x7FFF;
 
     r->adjacent_region_count = 0;	
-	i = y*(s->width)+x;
-/*	
+/*	i = y*(s->width)+x;
+	
 	r->first_span = LOOKUP_SEGMENTER_SPAN( s,  i );
 	r->first_span->start = i;
 	r->first_span->end = i;
@@ -494,7 +494,7 @@ static void build_regions( Segmenter *s, const unsigned char *source )
 
 void initialize_segmenter( Segmenter *s, int width, int height, int max_adjacent_regions )
 {
-    max_adjacent_regions += 2; //workaround for #44
+    //max_adjacent_regions += 2; //workaround for #44
     s->max_adjacent_regions = max_adjacent_regions;
     s->region_refs = (RegionReference*)malloc( sizeof(RegionReference) * width * height );
     s->region_ref_count = 0;

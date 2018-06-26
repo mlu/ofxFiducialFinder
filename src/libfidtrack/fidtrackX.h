@@ -1,7 +1,7 @@
 /*
   Fiducial tracking library.
   Copyright (C) 2004 Ross Bencina <rossb@audiomulch.com>
-  Maintainer (C) 2005-2008 Martin Kaltenbrunner <mkalten@iua.upf.edu>
+  Maintainer (C) 2005-2016 Martin Kaltenbrunner <martin@tuio.org>
 
   This library is free software; you can redistribute it and/or
   modify it under the terms of the GNU Lesser General Public
@@ -35,6 +35,8 @@ typedef struct FidtrackerX{
 
     int min_target_root_descendent_count;
     int max_target_root_descendent_count;
+    int min_target_root_descendent_range;
+    int max_target_root_descendent_range;
     int min_depth, max_depth;
 
     struct Region root_regions_head;
@@ -47,6 +49,8 @@ typedef struct FidtrackerX{
 
     double black_x_sum, black_y_sum, black_leaf_count;
     double white_x_sum, white_y_sum, white_leaf_count;
+	double black_x_sum_warped, black_y_sum_warped, black_leaf_count_warped;
+    double white_x_sum_warped, white_y_sum_warped, white_leaf_count_warped;
 
  //   int min_leaf_width_or_height;
 	int total_leaf_count;
@@ -54,7 +58,6 @@ typedef struct FidtrackerX{
     double average_leaf_size;
 
     TreeIdMap *treeidmap;
-
     ShortPoint *pixelwarp;
 
 } FidtrackerX;
@@ -68,15 +71,17 @@ void terminate_fidtrackerX( FidtrackerX *ft );
 
 
 #define INVALID_FIDUCIAL_ID  INVALID_TREE_ID
+#define FUZZY_NODE_RANGE 2
 
 typedef struct FiducialX{
     int id;                                 /* can be INVALID_FIDUCIAL_ID */
-
-    short top,bottom,left,right;
     float x, y;
+	//float a, b;
     float angle;
     float leaf_size;
     float root_size;
+	int root_colour;
+	int node_count;
 }FiducialX;
 
 typedef struct RegionX{
@@ -87,6 +92,7 @@ typedef struct RegionX{
     short x, y;
 	int area;
 	struct Span *span;
+	int colour;
 
 } RegionX;
 
@@ -106,7 +112,7 @@ int find_fiducialsX( FiducialX *fiducials, int max_count,
         FidtrackerX *ft, Segmenter *segments, int width, int height);
 
 int find_regionsX( RegionX *regions, int max_count,
-        FidtrackerX *ft, Segmenter *segments, int width, int height);
+        FidtrackerX *ft, Segmenter *segments, int width, int height, int min_size, int max_size);
 
 
 #ifdef __cplusplus
