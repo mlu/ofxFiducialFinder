@@ -63,13 +63,13 @@ void ofxFiducialFinder::findFiducials( ofxCvGrayscaleImage& input ) {
 	m_width		= input.width;
 	m_height	= input.height;
 	
-	const unsigned char* pixels = input.getPixels();
+	const unsigned char* pixels = input.getPixels().getData();
 	
 	//if uninitialized
 	if(!initialized){
 		//check the center pixel to make sure the image is only black and white
 		int centerpix = (int)pixels[(m_width/2)*m_width+(m_height/2)];
-		if (centerpix != 0 && 255) {
+		if ( (centerpix != 0) && (centerpix != 255)) {
 			printf("Image must be pure black and white with no gray. Threshold first.\n");
 			return;
 		} else {

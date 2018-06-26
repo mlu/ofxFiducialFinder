@@ -67,13 +67,13 @@ void ofxFiducialTracker::findFiducials( ofxCvGrayscaleImage& input ) {
 	m_height	= input.height;
 	
 	//get the pixels
-	const unsigned char* pixels = input.getPixels();
+	const unsigned char* pixels = input.getPixels().getData();
 	
 	//if uninitialized
 	if(!initialized){
 		//check the center pixel to make sure the image is only black and white
 		int centerpix = (int)pixels[(m_width/2)*m_width+(m_height/2)];
-		if (centerpix != 0 && 255) {
+		if ( (centerpix != 0) && (centerpix != 255)) {
 			printf("Image must be pure black and white with no gray. Threshold first.\n");
 			return;
 		} else {
@@ -131,13 +131,15 @@ void ofxFiducialTracker::findFiducials( ofxCvGrayscaleImage& input ) {
 
 //finds fingers in a pixel data array
 void ofxFiducialTracker::findFingers( const unsigned char* pixels ) {
-   		
-   		//find regions
-   		int fingerCount = find_regionsX( regions, MAX_FIDUCIAL_COUNT,
+
+    //find regions
+    int fingerCount = 0;
+
+    find_regionsX( regions, MAX_FIDUCIAL_COUNT,
    										 &fidtrackerx , 
 									   	 &segmenter, 
-									  	 m_width, m_height);
-							
+									  	 m_width, m_height, minFingerSize, maxFingerSize);
+
 		for(int j = 0; j < fingerCount; j++) {
 		
 			bool insideFid = false;
@@ -214,7 +216,6 @@ void ofxFiducialTracker::findFingers( const unsigned char* pixels ) {
 			else ++finger; 
 		}
 	}
-
 
 //check region to see if it is a finger
 int ofxFiducialTracker::check_finger(RegionX *finger, const unsigned char* img) {
