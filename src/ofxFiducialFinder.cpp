@@ -91,10 +91,10 @@ void ofxFiducialFinder::findFiducials( ofxCvGrayscaleImage& input ) {
 	_fiducials.clear();
 	
 	//fill fiducial vector
-	for(int i = 0; i< count; i++) {
+	for(int i = 0, j = 0; i< count; i++) {
 		if(fiducials[i].id!=INVALID_FIDUCIAL_ID){
 			_fiducials.push_back( ofxFiducial() );
-			_fiducials[i] = fiducials[i];
+			_fiducials[j++] = fiducials[i];
 		}
 	}
 	
